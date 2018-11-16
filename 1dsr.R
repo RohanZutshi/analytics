@@ -50,7 +50,7 @@ x8[2]=99
 x8[2:10]=99
 x8
 x8[x8 > 30 & x8 < 40]=999
-x8#dataframe ----
+x8
 x9=x8[1:4]; x9 #truncate 1st4 elements
 
 1:5
@@ -132,3 +132,43 @@ m1
 ?addmargins
 addmargins(m1,margin=1,sum)#colwise function
 addmargins(m1,margin=2,mean)#rowwise
+
+
+#dataframe----
+#create vectors to be combined into df
+(rollno=1:30)
+(sname=paste('student',1:30,sep=" "))
+(gender=sample(c('M',"F")))
+set.seed(1234)#to replicate the same pattern
+(gender=sample(c('M','F'), size=30, replace=T))
+table(gender)
+(gender=sample(c('M','F'), size=30, replace=T, prob=c(.7,.3)))
+prop.table(table(gender))
+#floor, ceilimg, round, trunc
+(marks1=floor(rnorm(30,mean=50,sd=10)))
+(marks2=ceiling(rnorm(30,40,5)))
+(course= sample(c('bba','mba'), size=30, replace=T, prob=c(.5,.5)))
+rollno; sname; course
+#create DF
+df1= data.frame(rollno, sname, gender, marks1, marks2, course, stringsAsFactors = F)
+str(df1) #structure of df
+head(df1) #top 6 rows
+head(df1,n=3)
+tail(df1)
+summary(df1)
+df1
+df1$course
+df1$gender= factor(df1$gender)#factor converts char data into a category
+df1$gender= factor(df1$course)
+df1
+summary(df1)
+df1[,c(2,4)]
+head(df1[,c(2,4)])
+df1[1:10,]
+#now the conditions
+df1[marks1>50 & gender=='F', c('rollno','sname','gender','marks1')]
+df1[marks1>50 & gender=='F', c(1,2)]
+names(df1)
+dim(df1)
+
+aggregate(df1$marks1, by=list(df1$gender),FUN=sum)
